@@ -9,12 +9,12 @@ exports.handler = async (event, context, callback) => {
         const items = res.data.data;
         const item = items[Math.floor(Math.random()*items.length)];
 
-        return callback(null, { statusCode: 200, body: JSON.stringify({ answer, url: item.url }) });
+        return callback(null, { statusCode: 200, body: JSON.stringify({ status: 200, answer, url: item.url }) });
     } catch (error) {
         if (error.response.status === 429) {
-            return callback(null, { statusCode: 429, body: JSON.stringify(error.response.data.meta.msg) });
+            return callback(null, { statusCode: 429, body: JSON.stringify({ status: 429, message: error.response.data.meta.msg}) });
         }
 
-        return callback(null, { statusCode: 500, body: 'Something went wrong!' });
+        return callback(null, { statusCode: 500, body: JSON.stringify({ status: 500, message: 'Something went wrong!'}) });
     }
 }
